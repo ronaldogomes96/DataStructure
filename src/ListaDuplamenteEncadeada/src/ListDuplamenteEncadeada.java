@@ -20,20 +20,37 @@ public class ListDuplamenteEncadeada<T> implements TADListaDuplamenteEncadeada<T
             return;
         }
 
-        No<T> noAnteriorInsercao = header;
+        No<T> noAnteriorInsercao;
+        No<T> novoNo;
 
-        for(int i = 1; i < posicao; i++) {
-            noAnteriorInsercao = noAnteriorInsercao.getProximo();
+        if ((tamanho / 2) > posicao) {
+
+            noAnteriorInsercao = header;
+            for(int i = 1; i < posicao; i++) {
+                noAnteriorInsercao = noAnteriorInsercao.getProximo();
+            }
+            novoNo = new No<T>(valor, null, noAnteriorInsercao);
+            novoNo.setProximo(noAnteriorInsercao.getProximo());
+            novoNo.getProximo().setAnterior(noAnteriorInsercao);
+
+            noAnteriorInsercao.setProximo(novoNo);
+
+        } else {
+
+            noAnteriorInsercao = trailer;
+            for(int i = tamanho; i >= posicao; i--) {
+                noAnteriorInsercao = noAnteriorInsercao.getAnterior();
+            }
+
+            novoNo = new No<T>(valor, noAnteriorInsercao, null);
+            novoNo.setAnterior(noAnteriorInsercao.getAnterior());
+            noAnteriorInsercao.getAnterior().setProximo(novoNo);
+            novoNo.getProximo().setAnterior(novoNo);
+
+
         }
 
-        No<T> novoNo = new No<T>(valor, null, noAnteriorInsercao);
-        novoNo.setProximo(noAnteriorInsercao.getProximo());
-        novoNo.getProximo().setAnterior(noAnteriorInsercao);
-
-        noAnteriorInsercao.setProximo(novoNo);
-
         tamanho++;
-
     }
 
     @Override
@@ -44,19 +61,40 @@ public class ListDuplamenteEncadeada<T> implements TADListaDuplamenteEncadeada<T
             return null;
         }
 
-        No<T> noAnteriorRemocao = header;
+        No<T> noAnteriorRemocao;
+        No<T> noRemovido;
 
-        for(int i = 1; i < posicao; i++) {
-            noAnteriorRemocao = noAnteriorRemocao.getProximo();
+        if ((tamanho / 2) > posicao) {
+
+            noAnteriorRemocao = header;
+
+            for(int i = 1; i < posicao; i++) {
+                noAnteriorRemocao = noAnteriorRemocao.getProximo();
+            }
+
+            noRemovido = noAnteriorRemocao.getProximo();
+
+            noAnteriorRemocao.setProximo(noRemovido.getProximo());
+            noRemovido.getProximo().setAnterior(noAnteriorRemocao);
+
+            noRemovido.setProximo(null);
+            noRemovido.setAnterior(null);
+
+        } else {
+
+            noAnteriorRemocao = trailer;
+            for(int i = tamanho; i > posicao; i--) {
+                noAnteriorRemocao = noAnteriorRemocao.getAnterior();
+            }
+
+            noRemovido = noAnteriorRemocao.getAnterior();
+
+            noAnteriorRemocao.setAnterior(noRemovido.getAnterior());
+            noRemovido.getAnterior().setProximo(noAnteriorRemocao);
+
+            noRemovido.setProximo(null);
+            noRemovido.setAnterior(null);
         }
-
-        No<T> noRemovido = noAnteriorRemocao.getProximo();
-
-        noAnteriorRemocao.setProximo(noRemovido.getProximo());
-        noRemovido.getProximo().setAnterior(noAnteriorRemocao);
-
-        noRemovido.setProximo(null);
-        noRemovido.setAnterior(null);
 
         tamanho--;
 

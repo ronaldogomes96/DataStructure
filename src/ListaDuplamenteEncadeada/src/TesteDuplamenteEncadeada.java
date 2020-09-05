@@ -16,8 +16,9 @@ public class TesteDuplamenteEncadeada {
         listaDuplamenteEncadeada.insereValor(0, 5);
         listaDuplamenteEncadeada.imprimeLista();
 
-        listaDuplamenteEncadeada.insereValor(3, 2);
+        listaDuplamenteEncadeada.insereValor(7, 3);
         listaDuplamenteEncadeada.imprimeLista();
+
 
         listaDuplamenteEncadeada.removeValor(3);
         listaDuplamenteEncadeada.imprimeLista();
@@ -27,5 +28,6 @@ public class TesteDuplamenteEncadeada {
 
         listaDuplamenteEncadeada.removeValor(9);
         listaDuplamenteEncadeada.imprimeLista();
+
     }
 }
